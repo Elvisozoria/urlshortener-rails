@@ -33,7 +33,18 @@ class UrlsController < ApplicationController
     end
 
     def top
-        render json: @url, status: :created
+        if params['amount']
+            if params['amount'].to_i
+                @urls = Url.all.sort_by {|task| task.clicked.to_i}.reverse!
+
+                # @top_url = @url.limit(params['amount'].to_i)
+                render json: @urls, status: :created
+            else
+                render json: 'error', status: :unprocessable_entity
+            end
+        end
+
+
 
     end
     
