@@ -4,6 +4,7 @@ class UrlsController < ApplicationController
         if params['shorten_url']
             if Url.find_by_shorten_url(params['shorten_url'])
                 @url = Url.find_by_shorten_url(params['shorten_url'])
+                @url.update_attribute(:clicked, @link.clicked + 1)
                 redirect_to @url.original_url
                 # render json: @url
             end
