@@ -1,5 +1,7 @@
 class Url < ApplicationRecord
     require "HTTParty"
+    require 'uri'
+
 
 
     ALPHABET = "mdbwlVF8Nx26r0qXICWvGUhnKsoPkLzja1c7JQR9OfH5teB4SgpTMZDyuiA3YE".split(//)
@@ -27,6 +29,13 @@ class Url < ApplicationRecord
             self.save
         }
 
+    end
+    
+    def self.valid_url?(url)
+        uri = URI.parse(url)
+        uri.is_a?(URI::HTTP) && !uri.host.nil?
+        rescue URI::InvalidURIError
+        false
     end
 
 end
