@@ -22,15 +22,12 @@ class Url < ApplicationRecord
     end
 
     def get_title
-        
-        Thread.new {
             html = HTTParty.get("https://elvisozoria.com").body
             self.title = html.scan(/<title>([^>]*)<\/title>/).last.first
             self.save
-        }
 
     end
-    
+
     def self.valid_url?(url)
         uri = URI.parse(url)
         uri.is_a?(URI::HTTP) && !uri.host.nil?
